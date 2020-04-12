@@ -317,7 +317,8 @@ def train(model, l=None, p=None):
 						base_order = base_order * np.power(args.lambd, j) 
 						rewards_order = rewards_order.astype(float) 
 						rewards_order += base_order.astype(float) 
-					rewards[:,i] = (1-args.lambd) * rewards_order
+					rewards[:,i] = (1-args.lambd) * rewards_order\
+						+ np.power(args.lambd, model.num_action - args.lambd) * np.sum(base * np.power(args.alpha, np.arange(0, base.shape[1])), axis=1)
 				
 
 			feed_dict = {model.concat_action: np.reshape(concat_action, [args.num_batch,-1]), \
